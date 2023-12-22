@@ -14,3 +14,4 @@ spec:
       command: ["sleep","1000"]
 
 #BY DEFAULT: BOTH both container can communicate  since, both are in same pod
+# login to alma pod and call nginx 
