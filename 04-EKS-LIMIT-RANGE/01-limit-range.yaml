@@ -13,7 +13,7 @@ limits:
    max:
     cpu: "750m"     #regardless default, max ==> value > maxium 
    min: 
-    cpu: "150m"    #regardless defaultrequest, min ==> value > min 
+    cpu: "150m"    #regardless defaultrequest, min ==> value < min 
 
   
     
