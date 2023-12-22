@@ -1,0 +1,21 @@
+apiVersion: v1 
+kind: Pod 
+metadata:
+ name: config-pod 
+spec:
+ containers:
+   - name: nginx 
+     image: nginx 
+     ports:
+      - containerPort: 80 
+     env:
+      - name: author
+        valueFrom:
+          configMapKeyRef:
+            name: pod-config   # give configmap name here , so that it will pick values from configMap
+            key: author
+      - name: appid 
+        valueFrom: 
+          configMapKeyRef:
+            name: pod-config
+            key: appid
