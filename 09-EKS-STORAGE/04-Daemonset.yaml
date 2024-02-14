@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet 
+metadata: 
+  name: log-system
+  # namespace: kube-system
+  # labels:
+  #   k8s-app: fluentd-logging
+spec:
+  selector:
+    matchLabels: 
+       tier: logPush 
+  template: 
+    metadata: 
+     labels:
+      tier: logPush 
+    spec: 
+      containers: 
+        - image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+          name: elastic
+          volumeMounts: 
+             - name: node-log-system 
+               mountPath: /var/log 
+      terminationGracePeriodSeconds: 30
+      volumes: 
+        - name: node-log-system 
+          hostPath:
+           path: /var/log 
+
+
+# Fluentd is an open-source data collector designed to unify logging infrastructure 
+# by collecting, parsing, and forwarding logs and event data from various sources to multiple 
+# destinations. It provides a flexible, reliable, and scalable solution for managing 
+# log data in modern distributed systems.
