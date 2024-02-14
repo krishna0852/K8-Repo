@@ -5,7 +5,7 @@ metadata:
   namespace: spot-ns
 sepc: 
 limits:
- - type: container 
+ - type: Container 
    default: 
      cpu: "500m"      # maximum 
    defaultRequest:    #minimum
