@@ -1,0 +1,42 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+reclaimPolicy: Delete
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-0650d71b5798063f0
+  directoryPerms: "700"
+  gidRangeStart: "1000" # optional
+  gidRangeEnd: "2000" # optional
+  basePath: "/dynamic_provisioning"
+--- 
+
+apiVersion: v1 
+kind: PersistentVolumeClaim
+metadata: 
+  name: efs-claiming 
+spec: 
+  storageClassName: efs-sc
+  accessModes: 
+    - ReadWriteOnce 
+  resources: 
+    requests: 
+       storage: 13Gi
+--- 
+
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: nginx-efs-pod 
+spec: 
+ containers: 
+   - image: nginx 
+     name: nginx 
+     ports:
+       - containerPort: 80 
+ volumes: 
+  - name: efs-volume 
+    persistentVolumeClaim: 
+      claimName: efs-claiming 
