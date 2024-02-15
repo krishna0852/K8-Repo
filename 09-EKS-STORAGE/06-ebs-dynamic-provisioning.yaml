@@ -1,0 +1,54 @@
+# 1) install drivers for ebs -https://github.com/kubernetes-sigs/aws-ebs-csi-driver.git
+
+# 2) create a storage class 
+
+# 3) create pvc 
+
+# 4) add pvc to the pod
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: dynamic-provis
+provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer # EBS volumes are AZ specific
+parameters:
+  type: gp2
+  encrypted: 'true' # EBS volumes will always be encrypted by default
+---
+
+apiVersion: v1 
+kind: PersistentVolumeClaim
+metadata: 
+  name: pv-claiming 
+spec: 
+  storageClassName: dynamic-provis 
+  accessModes: 
+    - ReadWriteOnce 
+  resources: 
+    requests: 
+       storage: 13Gi
+--- 
+
+apiVersion: v1 
+kind: Pod 
+metadata: 
+  name: nginx-pod 
+spec: 
+  containers: 
+     - image: nginx 
+       name: nginx 
+       ports: 
+         - containerPort: 80 
+       volumeMounts: 
+          - name: ebs-volume
+            mountPath: /usr/share/nginx/html
+  volumes: 
+    - name: ebs-volume 
+      persistentVolumeClaim: 
+        claimName: pv-claiming
+
+
+
+
