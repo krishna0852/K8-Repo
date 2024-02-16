@@ -1,0 +1,24 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: rs-cluster
+  region: us-east-1
+availabilityZones: ['us-east-1a', 'us-east-1b']
+nodeGroups:
+- name: cnvrg-app-core
+  instanceType: m5a.2xlarge
+  volumeSize: 100
+  minSize: 2
+  maxSize: 4
+  desiredCapacity: 2
+  privateNetworking: true
+  iam:
+    attachPolicyARNs:
+    - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+    - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+    - arn:aws:iam::aws:policy/AmazonS3FullAccess  #you can create policy specfic for bucket created
+    withAddonPolicies:
+      autoScaler: true
+  tags:
+    k8s.io/cluster-autoscaler/enabled: 'true'
+  availabilityZones: ['us-east-1b']
