@@ -5,8 +5,9 @@ metadata:
   region: eu-north-1
 managedNodeGroups:
   - name: ng-1
-    instance_type: t3.micro 
-    minSize: 1 
-    maxSize: 3
+    instanceType: t3.micro 
+    minSize: 2
+    maxSize: 4
+    desiredCapacity: 2
     ssh:
      publicKeyName: intel 
