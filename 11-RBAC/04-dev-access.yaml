@@ -1,0 +1,30 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: k8s-dev
+  namespace: roboshop
+rules:
+  - apiGroups: ["*"]
+    resources: ["deployments","services","secrets","configmaps"]
+    verbs: ["get","list","create","update","delete"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get","watch","list"]
+
+#kubectl get pods or other services is working only when you give list 
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dev-access-rolebinding
+  namespace: roboshop
+subjects:
+  - kind: User
+    name: k8s-dev-access
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+ kind: Role
+ name: k8s-dev
+ apiGroup: rbac.authorization.k8s.io

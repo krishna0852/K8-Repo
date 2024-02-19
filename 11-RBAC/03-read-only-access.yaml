@@ -1,0 +1,28 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role 
+metadata:
+  name: k8-read-access
+  namespace: roboshop 
+rules:
+ - apiGroups: ["*"]
+   resources: ["*"]
+   verbs: ["get","watch"]
+--- 
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding 
+metadata:
+  name: read-access-rolebinding 
+  namespace: roboshop 
+subjects:
+  - kind: User 
+    name: k8s-traine 
+    apiGroup:  rbac.authorization.k8s.io  
+roleRef: 
+   kind: Role 
+   name: k8-read-access 
+   apiGroup:  rbac.authorization.k8s.io 
+
+
+#after creating this mention this user name and userarn in aws_auth file
+ 
