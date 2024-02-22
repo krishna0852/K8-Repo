@@ -1,0 +1,26 @@
+# creating role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole 
+metadata: 
+  name: roboshop-k8-admin
+rules:
+  #- apiGroups: [""]-> represents core-group api which is v1 
+   - apiGroups: [""]
+     resources: ["nodes","namespaces"]
+     verbs: ["get","watch","list"]
+
+--- 
+# creating rolebinding to add the above role to the user
+apiVersion : rbac.authorization.k8s.io/v1 
+kind: ClusterRoleBinding 
+metadata: 
+  name: roboshop-k8-admin-role-binding 
+  namespace: roboshop 
+subjects:
+  - kind: User 
+    name: k8s-admin  #give iam user-name
+    apiGroup:  rbac.authorization.k8s.io 
+roleRef: 
+  kind: ClusterRole 
+  name: roboshop-k8-admin
+  apiGroup: rbac.authorization.k8s.io
