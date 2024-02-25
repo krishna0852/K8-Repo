@@ -1,0 +1,5 @@
+apiVesion: v1 
+name: nginx 
+version: 0.01 
+description: this is basic helm implementation using nginx 
+appversion: 0.0
