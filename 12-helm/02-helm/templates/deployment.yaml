@@ -1,0 +1,20 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata:
+  name: httpd-deploymentset 
+spec:
+ replicas: {{.Values.replicaCount}}
+ selector: 
+  matchLabels: 
+    app: httpd
+ template: 
+   metadata:
+    labels:
+      app: httpd
+   spec: 
+    containers: 
+      - name: httpd
+        image: {{.Values.imagename}}
+        ports:
+         - containerPort: 80
+   
