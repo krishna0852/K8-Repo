@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-deploymentset 
 spec:
- replicas: 1
+ replicas: {{.Values.replicaCount}}
  selector: 
   matchLabels: 
     app: nginx 
@@ -13,8 +13,8 @@ spec:
       app: nginx 
    spec: 
     containers: 
-      - name: nginx 
-        image: nginx 
+      - name: httpd
+        image: {{.Values.imagename}}
         ports:
          - containerPort: 80
    
