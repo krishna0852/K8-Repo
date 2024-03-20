@@ -1,0 +1,68 @@
+# write storage class configuration
+# beofore apply this , we need to have an ebs drivers in whereever we apply this manifest file
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: stateful-storage
+provisioner: ebs.csi.aws.com # Amazon EBS CSI driver
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer # EBS volumes are AZ specific
+parameters:
+  type: gp2
+  encrypted: 'true' # EBS volumes will always be encrypted by default
+--- 
+# service configuration
+apiVersion: v1
+kind: Service
+metadata:
+  name: stateful-service
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+--- 
+
+# statefulset configuration
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx # has to match .spec.template.metadata.labels
+  serviceName: "stateful-service"
+  replicas: 3 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: nginx # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: nginx-port
+        volumeMounts:
+        - name: nginx-volume
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: nginx-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "stateful-storage"
+      resources:
+        requests:
+          storage: 1Gi
+
+ 
