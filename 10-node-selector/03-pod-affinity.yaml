@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nignx-ngyrt
+  labels:
+    tier: proxy-server
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-deploy-pod
+  labels:
+    app: nginx-web-sever
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                  - proxy-server
+          topologyKey: topology.kubernetes.io/zone
+
+
+---
+
+
+# where ever the first pod will run , in the same node the second pod will also run
+

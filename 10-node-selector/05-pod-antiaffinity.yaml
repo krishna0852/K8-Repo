@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nignx-ngyrt
+  labels:
+    tier: proxy-server
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-deploy-pod
+  labels:
+    app: nginx-web-sever
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      ports:
+        - containerPort: 80
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                  - proxy-server
+          topologyKey: topology.kubernetes.io/zone
+
+#podAntiAffinity behaviour
+#==================
+
+#The second pod  nginx-deploy-pod will not run on the node where the first pod nignx-ngyrt is running 

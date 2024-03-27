@@ -1,0 +1,68 @@
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: nginx-pod 
+spec: 
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1     # it's requried field 
+          preference:
+            matchExpressions:
+              - key: tier
+                operator: In 
+                values:
+                  - web 
+       
+  containers: 
+    - image: nginx 
+      name: nginx 
+      ports: 
+        - containerPort: 80 
+---
+
+# if labels are not matched it will schedule the pods in any of the node.
+# you can write multiple weights, so that whatever matches it will schedule in that node
+
+
+--- 
+
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: nginx-pod 
+spec: 
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1     # it's requried field 
+          preference:
+            matchExpressions:
+              - key: tier
+                operator: In 
+                values:
+                  - web 
+        - weight: 2     # it's requried field 
+          preference:
+            matchExpressions:
+              - key: tier
+                operator: In 
+                values:
+                  - web-server
+       
+  containers: 
+    - image: nginx 
+      name: nginx 
+      ports: 
+        - containerPort: 80 
+
+
+--- 
+
+# first it will check which node had labels tier=web if not present, then goes to next weight and verify whether the tier=web-server is present, if it's present it will schedule the pod in that node, if not presnet it will schedule in any of the node randomly
+
+
+
+
+
+

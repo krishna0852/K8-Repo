@@ -10,3 +10,8 @@ spec:
        - containerPort: 80 
  nodeSelector:
      tier: web
+
+
+
+#syntax to set labels to the nodes
+#kubectl labels node node-name tier=web
