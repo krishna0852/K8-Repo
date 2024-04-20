@@ -22,6 +22,7 @@ spec:
     fsType: ext4
 
 ---
+#--#IAM Policy that allows the CSI driver service account to make calls to related services such as EC2 on your behalf.
 
 apiVersion: v1
 kind: PersistentVolumeClaim
