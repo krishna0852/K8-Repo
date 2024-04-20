@@ -1,0 +1,26 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: nginx-service 
+  labels:
+    service: web-server 
+spec: 
+  type: NodePort
+  selector: 
+    tier: nginx-deployment 
+    appver: "1.0"
+
+  ports: 
+    - protocol: TCP
+      port: 80   #--service-port
+      targetPort: 80  #---target containerport
+
+
+
+
+
+# In blue-green deployment startegy we will maintain two deployments which is older version and enhancement version deployments 
+# once the enhancement version deployment are tested and confitemd we will route the traffic to enahancement version deployment pods from older version deployment
+# In this example we have routed the traffic to enhancement version deployment using label appver:2.0, previosly it was 1.0 which is older deployment label and we have updated it to 2.0 which is enhancement deployment label using below command 
+
+# kubectl patch service nginx-service -p '{"spec":{"selector":{"appver":"2.0"}}}'

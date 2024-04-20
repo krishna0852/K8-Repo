@@ -1,0 +1,35 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: nginx2-deploy 
+  labels:
+    app: nginx-sever 
+spec: 
+ replicas: 3
+ selector: 
+   matchLabels: 
+     tier: nginx-deployment 
+     appver: "2.0"
+ template: 
+   metadata: 
+     labels:
+       tier: nginx-deployment 
+       appver: "2.0"
+   spec: 
+     containers: 
+       - image: devopshandson3/deployment:v2
+         name: app-v1
+         ports: 
+           - containerPort: 80
+         livenessProbe:
+           httpGet:
+             path: /
+             port: 80 
+           initialDelaySeconds: 15 
+           periodSeconds: 10 
+         
+          
+ 
+
+    
+    
