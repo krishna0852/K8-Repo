@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: nginx
+spec:
+  containers:
+   - name: nginx
+     image: nginx
+     ports:
+      - containerPort: 80
+     resources:
+      requests:
+       cpu: "75m"
+       memory: "110Mi"
+      limits:
+       cpu: "85m"
+       memory: "125Mi"
+     startupProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 10
+      periodSeconds: 7
+
+
+
+# using startupprobe we can control at what time we can start  the container , in the above example we declared initialDelaySeconds as 10 which means the container will take 10 minutes to start the containers and once the container start for every 7 seconds helaths check will be performed
+
+
+#initialDelaySeconds: Determines how long Kubernetes should wait after the container starts before initiating the first probe. This allows the container some time to initialize any necessary components before checking its health. In your example, it's set to 10 seconds.
+#periodSeconds: Specifies the frequency at which Kubernetes will perform subsequent probes after the initial delay. This means Kubernetes will continue to check the container's health at regular intervals. In your example, it's set to 7 seconds.
