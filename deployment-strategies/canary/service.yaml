@@ -1,0 +1,19 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: nginx-service 
+  labels:
+    service: web-server 
+spec: 
+  type: NodePort
+  selector: 
+    tier: nginx-deployment 
+  ports: 
+    - protocol: TCP
+      port: 80   #--service-port
+      targetPort: 80  #---target containerport
+
+
+
+# In canary deployment we will maintain two deployments which is older version deployment and enhancement version deployment 
+# we will connect the one service comman for two deployments, so users will get two versions randomly, we will increase the replicas of newer version of deployment slowly, once user confirmed it's working good, we will scale down the older version of deployment pods and will make stable with enahancement deployment
