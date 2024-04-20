@@ -1,0 +1,20 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: nginx-service 
+  labels:
+    service: web-server 
+spec: 
+  type: NodePort
+  selector: 
+    tier: nginx-deployment 
+  ports: 
+    - protocol: TCP
+      port: 80   #--service-port
+      targetPort: 80  #---target containerport
+
+
+
+
+#In rolling update, we are pointing the same service for old version and newer verison of deployment 
+# olderversion and newer version of deployment name should be same

@@ -1,0 +1,45 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: nginx-deploy 
+  labels:
+    app: nginx-sever 
+spec: 
+ replicas: 8
+ strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+ selector: 
+   matchLabels: 
+     tier: nginx-deployment 
+ template: 
+   metadata: 
+     labels:
+       tier: nginx-deployment 
+   spec: 
+     containers: 
+       - image: devopshandson3/deployment:v2
+         name: app-v2
+         ports: 
+           - containerPort: 80
+         livenessProbe:
+           httpGet:
+             path: /
+             port: 80 
+           initialDelaySeconds: 15 
+           periodSeconds: 10 
+         startupProbe:
+           httpGet:
+             path: /
+             port: 80 
+           initialDelaySeconds: 15 
+           periodSeconds: 10 
+
+
+# during rolling update version will slowly update to newer version,  to test if both version are comming up or not while accessing during deployment i'm adding startupProbe so that container will take 10 seconds to start up, so we can test
+ 
+
+    
+    
