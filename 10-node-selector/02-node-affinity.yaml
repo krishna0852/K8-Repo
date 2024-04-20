@@ -20,4 +20,5 @@ spec:
 
 
 # if the labels like tier=web--server didn't match in any of the nodes, the scheduler will not shcedule the pods, it's in pending state.
+#The new node affinity syntax supports the following operators: In, NotIn, Exists, DoesNotExist, Gt, Lt. You can use NotIn and DoesNotExist to achieve node anti-affinity behavior.
     
