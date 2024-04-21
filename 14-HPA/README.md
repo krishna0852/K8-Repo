@@ -1,0 +1,1 @@
+# In order to work with HPA, you should have a metric server in your instance where you're cluster is provisioned
