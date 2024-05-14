@@ -2,6 +2,9 @@ kubectl run my-nginx-pod --image=nginx  #it will create nginx pod
 
 kubectl expose pod my-nginx-pod --port=80 --target-port=80 --type=NodePort --name=nginx-app
 
+#kubectl set resources pod my-nginx-pod  --requests='cpu=0.5,memory=256Mi' --limits='cpu=1,memory=512Mi' not working 
+
+
 
 
 deployment:
