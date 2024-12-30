@@ -34,6 +34,7 @@ Gateways
  Once you deploy the application by following the steps in istio documentation. try below activities.
                           
  Traffic Managment:
+     
      1) create a virtualservice yaml file to route the traffic to base version v1 of all micorservices. eg: 15-ServiceMesh/TrafficManagement/01-virtualServices-basic.yaml 
      
      2) create a destination yaml file eg.15-ServiceMesh/TrafficManagement/DestrinationRules.yaml
